@@ -14,8 +14,8 @@ async fn announce(req: HttpRequest, data: web::Data<AppState>, info: Query<Annou
 
     let mut peermap = data.peermap.lock().unwrap();
 
-    println!("{:?}", req.connection_info().remote());
-    println!("{:?}", req.connection_info().remote().unwrap());
+    // println!("{:?}", req.connection_info().remote());
+    // println!("{:?}", req.connection_info().remote().unwrap());
 
     let ip_address = Ipv4Addr::from_str(
         req.connection_info().remote().unwrap().split(':').next().unwrap()).unwrap();
@@ -44,7 +44,7 @@ async fn announce(req: HttpRequest, data: web::Data<AppState>, info: Query<Annou
             }
             response.peers = Some(response_peers);
             let serialized = serde_bencode::to_string(&response).unwrap();
-            println!("{}", serialized);
+            // println!("{}", serialized);
             return serialized
         },
         None => {
@@ -58,7 +58,7 @@ async fn announce(req: HttpRequest, data: web::Data<AppState>, info: Query<Annou
             );
             response.peers = Some(vec![]);
             let serialized = serde_bencode::to_string(&response).unwrap();
-            println!("{}", serialized);
+            // println!("{}", serialized);
             return serialized
         }
     }
@@ -110,7 +110,7 @@ mod tests {
             .header("Forwarded", "88.88.88.88")
             .header("X-Forwarded-For", "88.88.88.88")
             .to_request();
-        println!("{:?}", req);
+        // println!("{:?}", req);
         let resp = app.call(req).await.unwrap();
 
         assert_eq!(resp.status(), http::StatusCode::OK);
@@ -127,7 +127,7 @@ mod tests {
             .header("Forwarded", "99.99.99.99")
             .header("X-Forwarded-For", "99.99.99.99")
             .to_request();
-        println!("{:?}", req);
+        // println!("{:?}", req);
         let resp = app.call(req).await.unwrap();
 
         assert_eq!(resp.status(), http::StatusCode::OK);
