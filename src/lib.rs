@@ -12,9 +12,8 @@ extern crate serde_bencode;
 
 
 pub struct AppState {
-    pub counter: Mutex<i32>, // <- Mutex is necessary to mutate safely across threads
     pub min_interval: u16,
-    pub peermap: Mutex<HashMap<String,Vec<Peer>>>,
+    pub peermap: Mutex<HashMap<String,Vec<Peer>>>, // <- Mutex is necessary to mutate safely across threads
 }
 
 // TODO: Think of a better strategy for locking and data structure
@@ -81,6 +80,7 @@ pub struct Peer{
     #[serde(rename = "peer id")]
     pub peer_id: String,
     pub ip: Ipv4Addr,
+    // pub ip: String,
     pub port: u16,
 }
 
